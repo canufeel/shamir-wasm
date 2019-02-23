@@ -1,9 +1,9 @@
 {
-  "author": "Nick Fitzgerald <nfitzgerald@mozilla.com>",
-  "name": "create-rust-webpack",
-  "version": "0.1.5",
-  "repository": "https://github.com/rustwasm/rust-webpack-template",
-  "license": "(MIT OR Apache-2.0)",
+  "author": "Petr Kosikhin",
+  "name": "shamir-wasm",
+  "version": "0.0.1",
+  "repository": "https://github.com/canufeel/shamir-wasm",
+  "license": "MIT",
   "scripts": {
     "start": "webpack-dev-server -d",
     "build": "webpack"
@@ -17,5 +17,24 @@
     "webpack": "^4.29.5",
     "webpack-cli": "^3.2.3",
     "webpack-dev-server": "^3.2.0"
+  },
+  "dependencies": {
+    "@babel/core": "^7.3.3",
+    "@babel/plugin-proposal-class-properties": "^7.3.3",
+    "@babel/plugin-syntax-dynamic-import": "^7.2.0",
+    "@babel/polyfill": "^7.2.5",
+    "@babel/preset-env": "^7.3.1",
+    "@babel/preset-react": "^7.0.0",
+    "babel-loader": "^8.0.5",
+    "babel-plugin-styled-components": "^1.10.0",
+    "grommet": "^2.4.0",
+    "polished": "^3.0.0",
+    "react": "^16.8.3",
+    "react-dom": "^16.8.3",
+    "react-redux": "^6.0.1",
+    "redux": "^4.0.1",
+    "redux-logger": "^3.0.6",
+    "redux-saga": "^1.0.1",
+    "styled-components": "^4.1.3"
   }
 }

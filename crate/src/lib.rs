@@ -2,7 +2,9 @@
 extern crate cfg_if;
 extern crate web_sys;
 extern crate wasm_bindgen;
+extern crate shamir;
 
+use shamir::SecretData;
 use wasm_bindgen::prelude::*;
 
 cfg_if! {
@@ -31,16 +33,33 @@ cfg_if! {
 #[wasm_bindgen]
 pub fn run() -> Result<(), JsValue> {
     set_panic_hook();
-
-    let window = web_sys::window().expect("should have a Window");
-    let document = window.document().expect("should have a Document");
-
-    let p: web_sys::Node = document.create_element("p")?.into();
-    p.set_text_content(Some("Hello from Rust, WebAssembly, and Webpack!"));
-
-    let body = document.body().expect("should have a body");
-    let body: &web_sys::Node = body.as_ref();
-    body.append_child(&p)?;
-
     Ok(())
+}
+
+#[wasm_bindgen]
+pub fn add(a: u32, b: u32) -> u32 {
+    a + b
+}
+
+#[wasm_bindgen]
+pub fn split_shamir(secret: &str, threshold: u8, shares: u8) -> Vec<u8> {
+    let secret_data = SecretData::with_secret(secret, threshold);
+    let mut shares_arr : Vec<u8> = vec![];
+    for share_idx in 1..(shares+1) {
+        let next_share : Vec<u8> = secret_data.get_share(share_idx);
+        shares_arr.extend(next_share);
+    }
+    shares_arr
+}
+
+#[wasm_bindgen]
+pub fn restore_shamir(shares: Vec<u8>, shares_num: u8) -> String {
+    let total_size = shares.len();
+    let slice_size = total_size / shares_num as usize;
+    let recover_payload: Vec<Vec<u8>> = shares
+        .chunks(slice_size)
+        .map(|item| item.to_vec())
+        .collect();
+    let result = SecretData::recover_secret(shares_num, recover_payload).unwrap();
+    result
 }
